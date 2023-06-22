@@ -139,6 +139,8 @@ async def get_data(request: Request,patient_Id:Annotated[str,Form(...)]):
    patient_Dob = df.iloc[0]['patient_Dob']
    patient_Gender = df.iloc[0]['patient_Gender']
    test_Date = df.iloc[0]['test_Date']
+   date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
+   test_Date = date_object.strftime(" %Y-%B-%d")
 
    return templates.TemplateResponse("index.html", {"request": request, "probability": prediction, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date})
    
