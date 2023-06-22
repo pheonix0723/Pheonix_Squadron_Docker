@@ -1,0 +1,137 @@
+{% extends "navBar.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lung Disease Detection</title>
+  <!-- Add your CSS file link here -->
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css"
+    integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+
+</head>
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+
+    <section id="Analysis">
+        <div class="dropdrown">
+          <form class="form-inline" id="form-inline" style="padding-left: 40px;" action="/getdata" method="POST">
+            <h4 style="color:rgb(20, 49, 77)">Search for a Report ?</h4>
+            <div class="row ">
+              <div class="col-md-4">
+                <select class="form-control" name="patient_Id" id="patient_Id" required>
+                  <option value="234789541245 - Suvarna">234789541245 - Suvarna</option>
+                  <option value="234598762453 - Rajesh">234598762453 - Rajesh</option>
+                  <option value="246809753198 - Manoj">246809753198 - Manoj</option>
+                  <option value="135790864213 - Thiru">135790864213 - Thiru</option>
+                  <option value="147987357627 - Ajay">147987357627 - Ajay</option>
+    
+                </select>
+                <!-- <label class="sr-only" for="inlineFormInputName2">Patient Id</label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" name="patient_id"
+              placeholder="Patient Id"> -->
+              </div>
+              <div class="col-md-4 ">
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+              </div>
+          </form>
+        </div>
+    
+        {% if img %}
+        <div class="row" >
+          <div class="card3" style="width:80%;">
+            <div class="card-body6" >Name : {{patient_Name}}</div>
+          </div>
+        </div>
+        <br>
+    
+        <div class="row">
+          <div class="col-md-5">
+            <div class="image-box" style = "height: 288px;">
+              <!-- {% if img %} -->
+              <img src="{{ img }}" alt = "Image Not Found">
+              <!-- {% else %}
+              <img src="data:image/{{ image_format }};base64,{{ img }}">
+              {% endif %} -->
+            </div>
+          </div>
+    
+          <div class="col-md-5">
+            <div class="row" >
+              <div class="card4" >
+                <div class="card-body7">Date of Test : {{ test_Date }}</div>
+              </div>
+            </div>
+            <br>
+    
+            <div class="row" >
+              <div class="card4" >
+                <div class="card-body7" id = "age_Display"></div>
+              </div>
+            </div>
+            <br>
+    
+            <div class="row" >
+              <div class="card4" >
+                <div class="card-body7" >Gender : {{patient_Gender}}</div>
+              </div>
+            </div>
+            <br>
+        
+            <div class="row" >
+              <!-- <div class="col-md-5"> -->
+              <div class="card4" >
+                <div class="card-body7" style="background-color:
+                {% if probability > 60 %} 
+                #fb5252;color: white
+                {% elif probability < 30 %}
+                #f9fc5f;
+                {% else %}
+                #93f75e;
+                {% endif %}">Probability of Having Diabetic Retinopathy : <b>{{ probability }} %</b></div>
+                </div>
+              </div>
+            </div>
+        </section>
+      
+        <script>
+            function removeTable() {
+            var table = document.getElementById("patientTable");
+            table.style.display = "none";
+          }
+    
+          function calculate_Age(dateOfBirth) {
+            var today = new Date();
+            var birthDate = new Date(dateOfBirth);
+    
+            var yearsDiff = today.getFullYear() - birthDate.getFullYear();
+    
+            if (today.getMonth() < birthDate.getMonth() ||
+              (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) 
+                {yearsDiff--;}
+            return yearsDiff;
+          }
+    
+          var ageDisplay = document.getElementById('age_Display');
+          ageDisplay.textContent = "Age : " + calculate_Age("{{patient_Dob}}");
+        </script>
+    
+        {% endif %}
+{% endblock %}
+</body>
+
+</html>

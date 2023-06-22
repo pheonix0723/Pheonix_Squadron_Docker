@@ -1,10 +1,13 @@
+{% extends "navBar.html" %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retinal Disease Detection</title>
+  <title>Lung Disease Detection</title>
   <!-- Add your CSS file link here -->
   <link rel="stylesheet" href="/static/css/styles.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -18,472 +21,204 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
 
-
-  <style>
-    .container1 {
-      max-width: 800px;
-      margin: 40px auto;
-      min-width: 5px;
-    }
-
-    .image-preview {
-      width: 300px;
-      height: 200px;
-      border: 1px solid #ddd;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .image-preview img {
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    .table-container1 {
-      max-width: 400px;
-      max-height: 300px;
-      padding-left: 60px;
-
-    }
-
-    .table-container2 {
-      max-width: 400px;
-      max-height: 300px;
-      padding-top: 40px;
-      padding-left: 100px;
-      align-items: center;
-
-    }
-
-    table {
-      width: 100%;
-      height: auto;
-      border-collapse: collapse;
-      background-color: #f8f8f8;
-      float: center;
-    }
-
-    th,
-    td {
-      padding: 12px 20px;
-      text-align: left;
-      border-bottom: 1px solid #dddddd;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    .image-box {
-      max-width: 400px;
-      height: 286px;
-      overflow: hidden;
-      padding-left: 40px;
-      padding-top: 1.5px;
-    }
-
-    .image-box img {
-      width: 100%;
-      height: 100%;
-    }
-
-    .card3 {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      width:75.5%;
-      size: 20px;
-      word-wrap: break-word;
-      border-radius: 0.25rem;
-      margin-left:40px;
-    }
-
-    .card-body6{
-      flex: 1 1 auto;
-      position: center;
-      text-align: center;
-      color: azure;
-      text-shadow: 0 1px 2px rgb(255, 247, 247);
-      background-color: rgb(51, 173, 235);
-      font-size :30px;
-    }
-
-    .card4 {
-    /* position: relative; */
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    text-align: center;
-    width:90%;
-    size: 20px;
-    /* word-wrap: break-word; */
-    border-radius: 0.25rem;
-    }
-
-    .card5 {
-    /* position: relative; */
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    width:79%;
-    size: 20px;
-    word-wrap: break-word;
-    border-radius: 0.25rem;
-    }
-
-    .card-body7
-    {
-      flex: 1 1 auto;
-      /* position: center; */
-      text-align: left;
-      color: rgb(13, 14, 14);
-      text-shadow: 0 1px 2px rgb(120, 114, 114);
-      background-color: rgb(142, 193, 254);
-      font-size :20px;
-      padding: 0.5rem 0.5rem;
-    }
-
-    /* .card-body8{
-      flex: 1 1 auto;
-      position: center;
-      text-align: left;
-      color: rgb(13, 14, 14);
-      text-shadow: 0 1px 2px rgb(120, 114, 114);
-      background-color: rgb(224, 240, 249);
-      font-size :15px;
-      padding: 0.5rem 0.5rem;
-      font-weight: 400;
-      
-    } */
-
-    #Analysis
-    {
-      padding-left: 200px;
-      padding-right: 0px;
-    }
-
-    .dropdrown {
-      padding-bottom: 40px;
-      padding-left: 40px;
-    }
-
-  </style>
 </head>
+<style>
+  body {
+    background-color: #d6d4e0;
+  }
+
+  .icon {
+    border: 1px solid rgb(5, 30, 22);
+    border-radius: 2px;
+    padding: 4px;
+    width: 90px;
+    height: 50%;
+
+  }
+
+  .div {
+    width: 100%;
+    height: 48px;
+    border: 1px solid rgb(231, 239, 247);
+    box-sizing: border-box;
+    border-radius: 2px;
+    background-color: #d6d4e0
+  }
+
+  .div1 {
+    width: 100%;
+    height: 80px;
+    border: 3px solid rgb(241, 243, 244);
+    box-sizing: border-box;
+    background-color: #5b9aa0
+  }
+
+  p {
+    width: 100%;
+  }
+
+  div button {
+    float: right;
+    text-align: center;
+    font-size: 16px;
+    background-color: #016064;
+    color: white;
+    padding: 8px 28px;
+    border-radius: 12px;
+    font-family: "Poppins", sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    font-family: "Poppins", sans-serif;
+  }
+
+  button:hover {
+    opacity: 0.5;
+  }
+
+
+  footer {
+    text-align: center;
+    padding: 3px;
+    background-image: linear-gradient(to right, #d3e6f8, #3295eb) ;color: azure
+  }
+
+  .carousel-caption {
+    position: relative;
+    bottom: 10%;
+    left: 5%;
+    z-index: 20;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+  }
+
+  .column1 {
+    width: 50%;
+  }
+
+  .creative-paragraph {
+    background-color: #cee7f9;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(10, 9, 9, 0.1);
+    text-align: center;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #121111;
+    max-width: 550px;
+    max-height: 400px;
+    margin: 0 auto;
+    opacity: 1;
+  }
+
+  .creative-paragraph::first-letter {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #ff7f50;
+    float: left;
+    line-height: 0.5;
+  }
+</style>
 
 <body>
-  <section id="nav-bar">
-    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: hsl(195, 94%, 88%);">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="/static/images/eye_Manoj.jpeg" alt="logo"
-            style="height:50px;width:80px"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-
-          <i class="fa fa-bars" aria-hidden="true"></i>
-
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto" style="float:right">
-            <li class="nav-item">
-              <a class="nav-link active" href="#Analysis">PATIENTS</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link active" href="#form-data" onclick="toggleForm()" tabindex="-1" aria-disabled="true">NEW PATIENT</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">SIGNUP/LOGIN</a>
-            </li>
-          
-          </ul>
-
-          <!-- <ul class="navbar-nav ms-auto" >
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">SIGNUP/LOGIN</a>
-            </li>
-      
-          </ul> -->
-        </div>
-      </div>
-    </nav>
-  </section>
-
   <section id="banner">
     <div class='container'>
       <div class="row">
-        <div class="col-md-6">
-        <h2> Eye Care </h2>
-        <br>
-        <h4> Welcome to Our Website </h4>
-          <p> A platform designed to assist in the early detection of Diabetic Retinopathy using cutting-edge technology to analyze Fundus Images.</p>
-          <p>Diabetic retinopathy (also known as diabetic eye disease), is a medical condition in which damage occurs to the retina due to diabetes mellitus.</p>
-          <p>Diabetic retinopathy affects up to 80 percent of those who have had both type 1 and type 2 diabetes for 20 years or more.</p>
-          <p>The longer a person has diabetes, the higher his or her chances of developing diabetic retinopathy. </p>
+        <div class="col-md-6 ">
+
+         <h1>Pure Vision</h1>
+         <br>
+         <h4>Welcome to our website</h4>
+         <p> A platform designed to assist in the early detection of Diabetic Retinopathy using cutting-edge technology to analyze Fundus Images.</p>
+         <p>Diabetic retinopathy (also known as diabetic eye disease), is a medical condition in which damage occurs to the retina due to diabetes mellitus.</p>
+         <p>Diabetic retinopathy affects up to 80 percent of those who have had both type 1 and type 2 diabetes for 20 years or more.</p>
+         <p>The longer a person has diabetes, the higher his or her chances of developing diabetic retinopathy. </p>
         </div>
-        <div class="col-md-6 text-center">
-          <img src="/static/images/home_Image.jpeg" class="img-fluid top-img"
-            style="width:500px;height:400px; padding-bottom:25px;">
+
+        <div class="col-md-6">
+          <div style="width:600px;height:600px;" id="demo" class="carousel slide"
+            data-bs-ride="carousel">
+
+            <!-- Indicators/dots -->
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+            </div>
+
+            <!-- The slideshow/carousel -->
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="/static/images/pic_1.png" alt="Los Angeles" class="d-block"
+                  style="width:100%;opacity:1;height:400px">
+                <div class="carousel-caption" style="text-align:center;color:black;">
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="/static/images/pic_1.png" alt="Chicago" class="d-block"
+                  style="width:100% ;height:400px">
+                <div class="carousel-caption">
+
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="/static/images/pic_1.png" alt="New York" class="d-block"
+                  style="width:100%;opacity:1;height:400px">
+                <div class="carousel-caption" style="text-align:center; padding-top: 2px;color:black">
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Left and right controls/icons -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev" style="padding-left:900px;">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
         </div>
       </div>
     </div>
     <img src="/static/images/wave1.png" class="bottom-img">
-  </section>
-      <!-- Add your banner image and headline here -->
-
-    <!-- <form class="form-inline" style="padding-left: 10px;" action="/getdata" method="POST">
-      <h4 style="color:rgb(20, 49, 77)">Search for a Report ?</h4>
-      <div class="row">
-        <div class="col-md-3">
-          <label class="sr-only" for="inlineFormInputName2">Patient Id</label>
-          <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" name="patient_Id"
-            placeholder="Patient Id">
-        </div>
-        <div class="col-md-3">
-          <button type="submit" class="btn btn-primary mb-2">Submit</button>
-        </div>
-    </form>
-    <div class="col-md-3">
-      <p> <a href="#form-data" onclick="toggleForm()">New Patient?</a></p>
-    </div>
-    </div> -->
-
-  <!-- <button class="btn btn-secondary Open_button" onclick="toggleForm()">Form</button> -->
-  <section id="form-data">
-      <div class="container1">
-
-        <div id="formContainer" style="display: none;">
-          <form action="/dynamic" method="POST" enctype="multipart/form-data">
-            <br>
-
-            <div class="form-group">
-              <h2>Patient Data Form</h2>
-              <br>
-              <label for="id">Patient ID</label>
-              <input type="text" class="form-control" name="patient_Id" id="id" placeholder="Enter Patient ID" required>
-            </div>
-            <br>
-
-            <div class="form-group">
-                <label for="name">Name</label>
-              <input type="text" class="form-control" name="patient_Name" id="name" placeholder="Enter Patient Name" required> 
-            </div>
-            <br>
-
-            <div class="form-group">
-              <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" name="patient_Email" placeholder="Enter Patient Email" required>
-            </div>
-            <br>
-
-            <div class="row">
-                <div class="col-md-4">
-                  <label for="phone">Mobile Number</label>
-                  <input type="text" id="mobile" name="patient_Mobile" placeholder="Enter Mobile Number" required>
-                </div>
-                <br>  
-  
-                <div class="col-md-4">
-                  <label for="dob">Date of Birth</label>
-                  <input type="text" id="dob-input" name="patient_Dob" placeholder="Select Date of Birth" required>
-                </div>
-      
-                <!-- <div class="col-md-4">
-                  <label for="aadhar">Aadhar Number:</label>
-                  <input type="text" id="aadhar" name="patient_Aadhar" placeholder="Enter Aadhar Number" required>
-                </div> -->
-            </div>
-            <br>
-
-            <div class="form-group">
-              <label for="gender">Gender</label>
-              <select class="form-control" name="patient_Gender" id="gender" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <!-- <div class="form-group">
-              <label for="Image_type">Image Type</label>
-              <select class="form-control" name="image_Type" id="image_type">
-                <option value="X-ray">X-ray</option>
-                <option value="CT">CT Scan</option>
-              </select>
-            </div> -->
-            <!-- <div class="form-group">
-              <label for="address">Address</label>
-              <textarea class="form-control" id="address" rows="3"  name="patient_Address" placeholder="Enter patient address"></textarea>
-            </div> -->
-            <div class="form-group">
-              <label for="fundus">Fundus Image (Drag and drop here)</label>
-              <div class="image-preview" id="imagePreview">
-                <img src="" alt="Image Preview">
-              </div>
-              <input type="file" class="form-control-file" id="fundus" name="image" accept="image/*" onchange="previewImage(event)">
-            </div>
-            <button type="submit" class="btn btn-primary" onclick="submitForm()">Submit</button>
-
-          </form>
-        </div>
-
-      </div>
-      <!-- Bootstrap JS -->
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-      
-      <script>
-        
-        flatpickr("#dob-input", {
-        dateFormat: "Y-m-d", // Adjust the format as per your requirement
-        });
-
-        function toggleForm() {
-          var formContainer = document.getElementById("formContainer");
-          var button = document.querySelector("button");
-    
-          if (formContainer.style.display === "none") {
-            formContainer.style.display = "block";
-            button.innerText = "Close Form";} 
-          else {
-            formContainer.style.display = "none";
-            button.innerText = "Open Form";}
-        }
-
-        function submitForm() {
-          // Add your code here to handle form submission
-          // alert("Form submitted successfully!");
-          // toggleForm();
-          removeTable(); // Hide the form after submission
-        }
-
-        function previewImage(event) {
-          var reader = new FileReader();
-          var imagePreview = document.getElementById("imagePreview");
-          var image = imagePreview.querySelector("img");
-
-          reader.onload = function () {
-            image.src = reader.result;};
-
-          reader.readAsDataURL(event.target.files[0]);
-        }
-
-      </script>
 
   </section>
 
-  <section id="Analysis">
-    <div class="dropdrown">
-      <form class="form-inline" id="form-inline" style="padding-left: 40px;" action="/getdata" method="POST">
-        <h4 style="color:rgb(20, 49, 77)">Search for a Report ?</h4>
-        <div class="row ">
-          <div class="col-md-4">
-            <select class="form-control" name="patient_Id" id="patient_Id" required>
-              <option value="01">01</option>
-              <option value="02">02</option>
-              <option value="03">03</option>
-              <option value="04">04</option>
-              <option value="05">05</option>
+  <!-- Add your banner image and headline here -->
 
-            </select>
-            <!-- <label class="sr-only" for="inlineFormInputName2">Patient Id</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" name="patient_id"
-          placeholder="Patient Id"> -->
-          </div>
-          <div class="col-md-4 ">
-            <button type="submit" class="btn btn-primary mb-2">Submit</button>
-          </div>
-      </form>
-    </div>
-
-    {% if img %}
-    <div class="row" >
-      <div class="card3" >
-        <div class="card-body6" >Name : {{patient_Name}}</div>
-      </div>
-    </div>
-    <br>
-
+  <!-- <form class="form-inline" style="padding-left: 10px;" action="/getdata" method="POST">
+    <h4 style="color:rgb(20, 49, 77)">Search for a Report ?</h4>
     <div class="row">
-      <div class="col-md-5">
-        <div class="image-box">
-          <!-- {% if img %} -->
-          <img src="{{ img }}" alt = "Image Not Found">
-          <!-- {% else %}
-          <img src="data:image/{{ image_format }};base64,{{ img }}">
-          {% endif %} -->
-        </div>
+      <div class="col-md-3">
+        <label class="sr-only" for="inlineFormInputName2">Patient Id</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" name="patient_id"
+          placeholder="Patient Id(Patient Name+Dob)">
       </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+      </div>
+  </form>
+  <div class="col-md-3">
+    <p> <a href="#form-data" onclick="toggleForm()">New Patient?</a></p>
+  </div>
+  </div> -->
 
-      <div class="col-md-5">
-        <div class="row" >
-          <div class="card4" >
-            <div class="card-body7">Date of Test : {{ test_Date }}</div>
-          </div>
-        </div>
-        <br>
-
-        <div class="row" >
-          <div class="card4" >
-            <div class="card-body7" id = "age_Display"></div>
-          </div>
-        </div>
-        <br>
-
-        <div class="row" >
-          <div class="card4" >
-            <div class="card-body7" >Gender : {{patient_Gender}}</div>
-          </div>
-        </div>
-        <br>
-    
-        <div class="row" >
-          <!-- <div class="col-md-5"> -->
-          <div class="card4" >
-            <div class="card-body7" style="background-color:
-            {% if probability > 60 %} 
-            #fb5252;color: white
-            {% elif probability < 30 %}
-            #f9fc5f;
-            {% else %}
-            #93f75e;
-            {% endif %}">Probability of Having Diabetic Retinopathy : <b>{{ probability }} %</b></div>
-            </div>
-          </div>
-        </div>
-    </section>
-  
-    <script>
-        function removeTable() {
-        var table = document.getElementById("patientTable");
-        table.style.display = "none";
-      }
-
-      function calculate_Age(dateOfBirth) {
-        var today = new Date();
-        var birthDate = new Date(dateOfBirth);
-
-        var yearsDiff = today.getFullYear() - birthDate.getFullYear();
-
-        if (today.getMonth() < birthDate.getMonth() ||
-          (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) 
-            {yearsDiff--;}
-        return yearsDiff;
-      }
-
-      var ageDisplay = document.getElementById('age_Display');
-      ageDisplay.textContent = "Age : " + calculate_Age("{{patient_Dob}}");
-    </script>
-
-    {% endif %}
-
-    <section id="information-section">
+  <section id="information-section">
+    <div class="row">
       <h2>Diabetic Retinopathy Information</h2>
-      <p>There are Four Stages of Diabetic Retinopathy : Mild, Moderate, Severe, Proliferative 
-         <a href="https://en.wikipedia.org/wiki/Diabetic_retinopathy">For more Information</a>
-      </p>
-    </section>
+      <!-- Add detailed information about Diabetic Retinopathy here -->
+      <p>There are Four Stages of Diabetic Retinopathy : Mild, Moderate, Severe, Proliferative</p>
+    </div>
+
+  </section>
 
 
+  <div class="row">
     <footer>
       <ul>
         <!-- Add your contact and social media links here -->
@@ -492,65 +227,15 @@
         <li><a href="https://www.facebook.com/example">Facebook</a></li>
         <li><a href="https://www.twitter.com/example">Twitter</a></li>
       </ul>
-      <p>&copy; 2023 Diabetic Retinopathy Website. All rights reserved.</p>
+      <p>&copy; 2023 Diabetic Retinopathy Detection Website. All rights reserved.</p>
     </footer>
 
     <!-- Add your JavaScript file link here -->
     <script src="../static/script.js"></script>
 
+  </div>
+
+  {% endblock %}
 </body>
 
 </html>
-<!-- <script>
-  function updatePatientIDs() {
-  var dropdown = document.getElementById("dropdown");
-  var selectedOption = dropdown.value;
-  var patientIDInput = document.getElementById("patientID");
-
-  // Update patient IDs based on selected option
-  switch (selectedOption) {
-    case "01":
-      patientIDInput.value = "01";
-      break;
-    case "02":
-      patientIDInput.value = "02";
-      break;
-    case "03":
-      patientIDInput.value = "03";
-      break;
-    case "04":
-      patientIDInput.value = "04";
-      break;
-    case "05":
-      patientIDInput.value = "05";
-      break;
-    default:
-      patientIDInput.value = "";
-      break;
-  }
-}
-function createOptions() {
-  var dropdown = document.getElementById("dropdown");
-  var selectedOption = dropdown.value;
-
-  // Clear existing options
-  dropdown.innerHTML = "";
-
-  // Create new options
-  var options = ["01", "02", "03", "04", "05"];
-  options.forEach(function (option) {
-    var optionElement = document.createElement("option");
-    optionElement.value = option;
-    optionElement.text = option;
-    dropdown.appendChild(optionElement);
-  });
-
-  // Set the selected option after recreating the options
-  dropdown.value = selectedOption;
-}
-
-var dropdown = document.getElementById("dropdown");
-dropdown.addEventListener("change", updatePatientIDs);
-dropdown.addEventListener("click", createOptions);
-
-</script> -->

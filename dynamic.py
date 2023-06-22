@@ -80,11 +80,20 @@ def upload_Data(image : UploadFile, data_Entry : dict, prediction : float):
 async def dynamic_file(request : Request):
     return templates.TemplateResponse("index.html", {"request" : request})
 
+@app.get("/newPatient")
+async def dynamic_file(request : Request):
+    return templates.TemplateResponse("patientForm.html", {"request" : request})
+
+@app.get("/report")
+async def report_fun(request: Request):
+    return templates.TemplateResponse("results.html", {"request": request})
 
 @app.post("/dynamic")
 async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
                                     patient_Id : Annotated[str, Form(...)],
-                                    patient_Name : Annotated[str, Form(...)],
+                                    patient_fName : Annotated[str, Form(...)],
+                                    patient_lName : Annotated[str, Form(...)],
+                                    # patient_Aadhar : Annotated[str, Form(...)],
                                     patient_Dob : Annotated[str, Form(...)],
                                     patient_Email : Annotated[str, Form(...)],
                                     patient_Gender : Annotated[str, Form(...)],
@@ -105,18 +114,21 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
     model = keras.models.load_model(model_File)
 
     # Get the Prediction of Our Model
-    prediction = round(model.predict(img)[0][0] * 100, 2)
+    prediction = model.predict(img)[0][0]
     # prediction = [[0.8881818111881]]
     os.remove(model_File)
     
     test_Date = str(datetime.now().date())
+    date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
+    test_Date_Display = date_object.strftime("%B %d, %Y")
+
+    patient_Name = patient_fName + patient_lName
 
     data_Entry = {"patient_Id": patient_Id, "patient_Name": patient_Name, "patient_Dob": patient_Dob, "patient_Mobile": patient_Mobile, "patient_Email": patient_Email, "patient_Gender": patient_Gender, "test_Date": test_Date}
 
     image_Path = upload_Data(image, data_Entry, prediction)
 
-    return templates.TemplateResponse("index.html", {"request" : request, "probability": prediction, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date})
-
+    return templates.TemplateResponse("results.html", {"request" : request, "probability": prediction, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date_Display})
 
     
 @app.post("/getdata")
@@ -139,8 +151,10 @@ async def get_data(request: Request,patient_Id:Annotated[str,Form(...)]):
    patient_Dob = df.iloc[0]['patient_Dob']
    patient_Gender = df.iloc[0]['patient_Gender']
    test_Date = df.iloc[0]['test_Date']
+   date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
+   test_Date = date_object.strftime("%B %d, %Y")
 
-   return templates.TemplateResponse("index.html", {"request": request, "probability": prediction, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date})
+   return templates.TemplateResponse("results.html", {"request": request, "probability": prediction, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date})
    
 
 # # if __name__ == '__dynamic__':
