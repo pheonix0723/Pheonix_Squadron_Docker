@@ -128,7 +128,7 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
 
     image_Path = upload_Data(image, data_Entry, prediction)
 
-    return templates.TemplateResponse("results.html", {"request" : request, "probability": prediction * 100, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date_Display})
+    return templates.TemplateResponse("results.html", {"request" : request, "probability": round(prediction * 100, 2), "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date_Display})
 
     
 @app.post("/getdata")

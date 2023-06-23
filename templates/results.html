@@ -26,7 +26,6 @@
 
 <body>
 
-
     <section id="Analysis">
         <div class="dropdrown">
           <form class="form-inline" id="form-inline" style="padding-left: 40px;" action="/getdata" method="POST">
@@ -47,61 +46,70 @@
               <div class="col-md-4 ">
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
               </div>
+            </div>
           </form>
         </div>
     
         {% if img %}
-        <div class="row" >
-          <div class="card3" style="width:80%;">
-            <div class="card-body6" >Name : {{patient_Name}}</div>
-          </div>
-        </div>
-        <br>
-    
-        <div class="row">
-          <div class="col-md-5">
-            <div class="image-box" style = "height: 288px;">
-              <img src="{{ img }}" alt = "Image Not Found">
+        <section id = "report">
+        <div class = "reportcard">
+          <div class="row" style="margin-right:0px;important;padding-right:0px;width: 960px;">
+            <div class="card3" style="width:850px;">
+              <div class="card-body6" >Name : {{patient_Name}}</div>
             </div>
           </div>
+          <br>
     
-          <div class="col-md-5">
-            <div class="row" >
-              <div class="card4" >
-                <div class="card-body7">Date of Test : {{ test_Date }}</div>
+          <div class="row">
+            <div class="col-md-5">
+              <div class="image-box" style = "height: 288px;">
+                <img src="{{ img }}" alt = "Image Not Found">
               </div>
             </div>
-            <br>
     
-            <div class="row" >
-              <div class="card4" >
-                <div class="card-body7" id = "age_Display"></div>
-              </div>
-            </div>
-            <br>
-    
-            <div class="row" >
-              <div class="card4" >
-                <div class="card-body7" >Gender : {{patient_Gender}}</div>
-              </div>
-            </div>
-            <br>
-        
-            <div class="row" >
-              <!-- <div class="col-md-5"> -->
-              <div class="card4" >
-                <div class="card-body7" style="background-color:
-                {% if probability > 60 %} 
-                #fb5252;color: white
-                {% elif probability < 30 %}
-                #93f75e;
-                {% else %}
-                #f9fc5f;
-                {% endif %}">Probability of Having Diabetic Retinopathy : <b>{{ probability }} %</b></div>
+            <div class="col-md-6">
+
+              <div class="row" style="width: 450px;">
+                <div class="card4" >
+                  <div class="card-body7">Date of Test : {{ test_Date }}</div>
                 </div>
               </div>
+              <br>
+    
+              <div class="row" >
+                <div class="card4" style="width: 450px;">
+                  <div class="card-body7" id = "age_Display"></div>
+                </div>
+              </div>
+              <br>
+    
+              <div class="row" >
+                <div class="card4" style="width: 450px;">
+                  <div class="card-body7" >Gender : {{patient_Gender}}</div>
+                </div>
+              </div>
+              <br>
+        
+              <div class="row" >
+                <!-- <div class="col-md-5"> -->
+                <div class="card4" style="width: 450px;">
+                  <div class="card-body7" style="background-color:
+                  {% if probability > 60 %} 
+                  #fb5252;color: white
+                  {% elif probability < 30 %}
+                  #93f75e;
+                  {% else %}
+                  #f9fc5f;
+                  {% endif %}">Probability of Having Diabetic Retinopathy : <b>{{ probability }} %</b></div>
+                  </div>
+                </div>
+              </div>
+
             </div>
+          </div>
+        </div>
         </section>
+      </section>
       
         <script>
             function removeTable() {
