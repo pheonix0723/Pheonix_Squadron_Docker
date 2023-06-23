@@ -144,7 +144,7 @@ async def get_data(request: Request,patient_Id:Annotated[str,Form(...)]):
    image_Path = df.iloc[0]["image_Path"]
    #img = Image.open(image_Path)
    #encoded_img =base64.b64encode(img).decode('utf-8')
-   prediction = round(df.iloc[0]['dr_Probability'], 2)
+   prediction = round(float(df.iloc[0]['dr_Probability']), 2)
    patient_Id = df.iloc[0]['patient_Id']
    patient_Name = df.iloc[0]['patient_Name']
    patient_Email = df.iloc[0]['patient_Email']
