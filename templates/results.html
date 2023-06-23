@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lung Disease Detection</title>
+  <title>Retinal Disease Detection</title>
   <!-- Add your CSS file link here -->
   <link rel="stylesheet" href="/static/css/styles.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -34,16 +34,15 @@
             <div class="row ">
               <div class="col-md-4">
                 <select class="form-control" name="patient_Id" id="patient_Id" required>
+
+                  <option disabled selected>Select Patient ID</option>
                   <option value="234789541245 - Suvarna">234789541245 - Suvarna</option>
                   <option value="234598762453 - Rajesh">234598762453 - Rajesh</option>
                   <option value="246809753198 - Manoj">246809753198 - Manoj</option>
                   <option value="135790864213 - Thiru">135790864213 - Thiru</option>
-                  <option value="147987357627 - Ajay">147987357627 - Ajay</option>
+                  <option value="147987357627-Ajay">147987357627 - Ajay</option>
     
                 </select>
-                <!-- <label class="sr-only" for="inlineFormInputName2">Patient Id</label>
-            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" name="patient_id"
-              placeholder="Patient Id"> -->
               </div>
               <div class="col-md-4 ">
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
@@ -62,11 +61,7 @@
         <div class="row">
           <div class="col-md-5">
             <div class="image-box" style = "height: 288px;">
-              <!-- {% if img %} -->
               <img src="{{ img }}" alt = "Image Not Found">
-              <!-- {% else %}
-              <img src="data:image/{{ image_format }};base64,{{ img }}">
-              {% endif %} -->
             </div>
           </div>
     
@@ -99,9 +94,9 @@
                 {% if probability > 60 %} 
                 #fb5252;color: white
                 {% elif probability < 30 %}
-                #f9fc5f;
-                {% else %}
                 #93f75e;
+                {% else %}
+                #f9fc5f;
                 {% endif %}">Probability of Having Diabetic Retinopathy : <b>{{ probability }} %</b></div>
                 </div>
               </div>

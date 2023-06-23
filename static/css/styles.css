@@ -86,7 +86,7 @@ body {
   /* Footer */
   
   footer {
-    background-color: #333;
+    background-color: #111111;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -393,3 +393,11 @@ th {
   padding-left: 40px;
 
 } 
+
+.reportcard{
+  box-shadow: 2px 6px 100px  rgb(103, 158, 192);
+  max-width:775px; 
+  height:480px;
+  padding-left: 0px;
+  padding-right:0px;
+}

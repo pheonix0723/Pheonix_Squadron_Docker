@@ -24,7 +24,7 @@
 </head>
 <style>
   body {
-    background-color: #d6d4e0;
+    background-color: #ffffff;
   }
 
   .icon {
@@ -115,13 +115,58 @@
     opacity: 1;
   }
 
-  .creative-paragraph::first-letter {
+  .first-letter {
     font-size: 2.5em;
     font-weight: bold;
-    color: #ff7f50;
+    color: #07528f;
+    /* color: #16636d;  */
     float: left;
-    line-height: 0.5;
+    line-height: 0.4;
+    padding-top: 5px;
   }
+
+  h1 {
+    font-size: 45px;
+    font-weight: bold;
+    /* font-family: ; */
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+
+  }
+
+  .card {
+    width: 85%;
+    display: inline-block;
+    box-shadow: 2px 2px 20px rgb(103, 158, 192);
+    border-radius: 5px;
+    margin: 2%;
+   
+  }
+
+  .image img {
+    width: 100%;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    height: 165px;
+  }
+
+  .title {
+
+    text-align: center;
+    padding: 10px;
+
+  }
+
+  .des {
+    padding: 3px;
+    text-align: center;
+    padding-top: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
 </style>
 
 <body>
@@ -133,6 +178,7 @@
          <h1>Pure Vision</h1>
          <br>
          <h4>Welcome to our website</h4>
+         <br>
          <p> A platform designed to assist in the early detection of Diabetic Retinopathy using cutting-edge technology to analyze Fundus Images.</p>
          <p>Diabetic retinopathy (also known as diabetic eye disease), is a medical condition in which damage occurs to the retina due to diabetes mellitus.</p>
          <p>Diabetic retinopathy affects up to 80 percent of those who have had both type 1 and type 2 diabetes for 20 years or more.</p>
@@ -153,20 +199,20 @@
             <!-- The slideshow/carousel -->
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img src="/static/images/pic_1.png" alt="Los Angeles" class="d-block"
+                <img src="/static/images/Image_one.png" alt="Los Angeles" class="d-block"
                   style="width:100%;opacity:1;height:400px">
                 <div class="carousel-caption" style="text-align:center;color:black;">
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="/static/images/pic_1.png" alt="Chicago" class="d-block"
+                <img src="/static/images/Diabetic_Retinopathy_Neural_network.png"  alt="Chicago" class="d-block"
                   style="width:100% ;height:400px">
                 <div class="carousel-caption">
 
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="/static/images/pic_1.png" alt="New York" class="d-block"
+                <img src="/static/images/Image_one.png" alt="New York" class="d-block"
                   style="width:100%;opacity:1;height:400px">
                 <div class="carousel-caption" style="text-align:center; padding-top: 2px;color:black">
 
@@ -209,13 +255,84 @@
   </div> -->
 
   <section id="information-section">
+    <h2>Diabetic Retinopathy Information</h2>
+    <br>
     <div class="row">
-      <h2>Diabetic Retinopathy Information</h2>
-      <!-- Add detailed information about Diabetic Retinopathy here -->
-      <p>There are Four Stages of Diabetic Retinopathy : Mild, Moderate, Severe, Proliferative</p>
-    </div>
+      <div class="col-md-3" >
+        <div class="card">
+
+          <div class="image">
+            <img
+              src="/static/images/mild_bg_removed.png">
+          </div>
+          <div class="title">
+            <h5>
+              Stage 01 : Mild</h5>
+          </div>
+          <div class="des">
+            <p>
+              This is the earliest stage of diabetic retinopathy, characterized by tiny swellings in the blood vessels of the retina.</p>
+            <a href="https://www.drsnyder.org/eye-care-services/eye-disease-management/diabetic-retinopathy/the-4-stages-of-diabetic-retinopathy/"><button style="background-color: #07528f;height:fit-content; font-size: 12px;">Read More...</button></a>
+          </div>
+        </div>
+       </div>
+
+       <div class="col-md-3">
+        <div class="card">
+
+          <div class="image">
+            <img
+              src="/static/images/moderate.jpeg">
+          </div>
+          <div class="title">
+            <h5>
+              Stage 02 : Moderate</h5>
+          </div>
+          <div class="des">
+            <p>The tiny blood vessels further swell up, blocking blood flow to the retina and preventing proper nourishment.</p>
+            <a href="https://www.drsnyder.org/eye-care-services/eye-disease-management/diabetic-retinopathy/the-4-stages-of-diabetic-retinopathy/"><button style="background-color: #07528f;height:fit-content; font-size: 12px;">Read More...</button></a>
+          </div>
+        </div>
+       </div>
+       <div class="col-md-3">
+        <div class="card">
+
+          <div class="image">
+            <img
+              src="/static/images/severe.jpeg">
+          </div>
+          <div class="title">
+            <h5>
+              Stage 03 : Severe</h5>
+          </div>
+          <div class="des">
+            <p>
+              A larger section of blood vessels in the retina becomes blocked, causing a significant decrease in blood flow.</p>
+            <a href="https://www.drsnyder.org/eye-care-services/eye-disease-management/diabetic-retinopathy/the-4-stages-of-diabetic-retinopathy/"><button style="background-color: #07528f;height:fit-content; font-size: 12px;">Read More...</button></a>
+          </div>
+        </div>
+       </div>
+       <div class="col-md-3">
+        <div class="card">
+
+          <div class="image">
+            <img
+              src="/static/images/proliferative.jpeg">
+          </div>
+          <div class="title">
+            <h5>
+              Stage 04 : Proliferative</h5>
+          </div>
+          <div class="des">
+            <p>At this advanced stage of the disease, new blood vessels continue to grow which are thin and weak and prone to bleeding.</p>
+            <a href="https://www.drsnyder.org/eye-care-services/eye-disease-management/diabetic-retinopathy/the-4-stages-of-diabetic-retinopathy/"><button style="background-color: #07528f; height:fit-content; font-size: 12px;">Read More...</button></a>
+          </div>
+        </div>
+       </div>
+      </div>
 
   </section>
+
 
 
   <div class="row">

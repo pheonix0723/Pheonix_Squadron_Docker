@@ -53,7 +53,7 @@ def upload_Data(image : UploadFile, data_Entry : dict, prediction : float):
 
     # Get the image path from Cloud Storage
     data_Entry["image_Path"] = f"https://storage.googleapis.com/{bucket_Name}/{blob.name}"
-    data_Entry["dr_Probability"] = prediction
+    data_Entry["dr_Probability"] = str(prediction)
 
     # Upload the data along with image path into Big Query
     table = 'cloudkarya-internship.patient_data.demo_table_01'
@@ -78,7 +78,7 @@ def upload_Data(image : UploadFile, data_Entry : dict, prediction : float):
 
 @app.get("/")
 async def dynamic_file(request : Request):
-    return templates.TemplateResponse("index.html", {"request" : request})
+    return templates.TemplateResponse("home.html", {"request" : request})
 
 @app.get("/newPatient")
 async def dynamic_file(request : Request):
@@ -128,7 +128,7 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
 
     image_Path = upload_Data(image, data_Entry, prediction)
 
-    return templates.TemplateResponse("results.html", {"request" : request, "probability": prediction, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date_Display})
+    return templates.TemplateResponse("results.html", {"request" : request, "probability": prediction * 100, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date_Display})
 
     
 @app.post("/getdata")
