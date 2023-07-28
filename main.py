@@ -27,53 +27,42 @@ templates = Jinja2Templates(directory="templates")
 
 #model = keras.models.load_model("sequential.h5")
 
-class details(BaseModel):
-    patient_Id : str   
-    patient_Name : str
-    patient_Email : str
-    patient_Dob : str
-    patient_Gender : str
-    dr_Probability : float | None = None
-    image_Path : str | None = None
+# class details(BaseModel):
+#     patient_Id : str   
+#     patient_Name : str
+#     patient_Email : str
+#     patient_Dob : str
+#     patient_Gender : str
+#     dr_Probability : float | None = None
+#     image_Path : str | None = None
 
 key_Path = "key.json"
 project_id = "cloudkarya-internship"
 bigquery_Client = bigquery.Client.from_service_account_json(key_Path)
 storage_Client = storage.Client.from_service_account_json(key_Path)
-bucket_Name = "diabetic-retinopathy_01"
+private_Bucket = "dr-raw"
+public_Bucket = "dr-processed"
 
-def upload_Data(image : UploadFile, data_Entry : dict, prediction : float):
+def upload_Data(image : UploadFile, data_Entry : dict):
     folder_Name = "images"
-    bucket = storage_Client.get_bucket(bucket_Name)
+    bucket = storage_Client.get_bucket(private_Bucket)
 
     # Upload the image into the Cloud Storage
-    blob = bucket.blob(f'{folder_Name}/{image.filename}')
+    blob = bucket.blob(f'{image.filename}')
     image.file.seek(0)
-    blob.upload_from_file(image.file)
+    blob.upload_from_file(image.file, content_type = image.content_type)
 
     # Get the image path from Cloud Storage
-    data_Entry["image_Path"] = f"https://storage.googleapis.com/{bucket_Name}/{blob.name}"
-    data_Entry["dr_Probability"] = str(prediction)
+    # data_Entry["image_Path"] = f"https://storage.googleapis.com/{bucket_Name}/{blob.name}"
+    # data_Entry["dr_Probability"] = str(prediction)
 
     # Upload the data along with image path into Big Query
-    table = 'cloudkarya-internship.patient_data.demo_table_01'
-
-    # query = f"""
-    #         INSERT INTO `{project_id}.ImageData.ImageDataTable`
-    #         VALUES ('{image_path}', '{image_type}', '{patient_id}', '{patient_name}', 
-    #                 DATE('{dob}'), '{Gender}', '{patient_email}', 
-    #                 {pred1}, {pred2}, {pred3}, {pred4})
-    #         """
-    #         job = bigquery_client.query(query)
-    #         job.result()
-            
-
+    table = 'cloudkarya-internship.patient_data.personal_Data'
     errors = bigquery_Client.insert_rows_json(table, [data_Entry])
 
     if errors :
         raise Exception(f'Error inserting rows into BigQuery : {errors}')
-
-    return data_Entry["image_Path"]
+    return f"https://storage.googleapis.com/{public_Bucket}/{blob.name}"
 
 
 @app.get("/")
@@ -99,25 +88,6 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
                                     patient_Gender : Annotated[str, Form(...)],
                                     patient_Mobile : Annotated[str, Form(...)]):
 
-    # Read the Image and Convert it into Required Format
-    data = await image.read()
-    #encoded_Image = base64.b64encode(data)
-    img = Image.open(io.BytesIO(data))
-    img = img.resize((224, 224))
-    img = np.array(img) / 255.0
-    img = np.expand_dims(img, axis = 0)
-
-    # Get the Model Saved from Cloud Storage
-    blob = storage_Client.get_bucket(bucket_Name).blob("models/sequential_Model_Demo")
-    model_File = "model.h5"
-    blob.download_to_filename(model_File)
-    model = keras.models.load_model(model_File)
-
-    # Get the Prediction of Our Model
-    prediction = model.predict(img)[0][0]
-    # prediction = [[0.8881818111881]]
-    os.remove(model_File)
-    
     test_Date = str(datetime.now().date())
     date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
     test_Date_Display = date_object.strftime("%B %d, %Y")
@@ -126,31 +96,41 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
 
     data_Entry = {"patient_Id": patient_Id, "patient_Name": patient_Name, "patient_Dob": patient_Dob, "patient_Mobile": patient_Mobile, "patient_Email": patient_Email, "patient_Gender": patient_Gender, "test_Date": test_Date}
 
-    image_Path = upload_Data(image, data_Entry, prediction)
+    image_Path = upload_Data(image, data_Entry)
 
-    return templates.TemplateResponse("results.html", {"request" : request, "probability": round(prediction * 100, 2), "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date_Display})
+    query = f"""
+         SELECT dr_Probability, image_Path FROM {project_id}.patient_data.test_Data
+         WHERE patient_Id = '{patient_Id}' AND test_Date = '{test_Date}';
+    """
+
+    df = bigquery_Client.query(query).to_dataframe()
+
+    return templates.TemplateResponse("results.html", {"request" : request, "probability": round(float(df.iloc[0]['dr_Probability']), 2), "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date_Display})
 
     
 @app.post("/getdata")
 async def get_data(request: Request,patient_Id:Annotated[str,Form(...)]):
 
    query = f"""
-         SELECT  * FROM {project_id}.patient_data.demo_table_01
+         SELECT  * FROM {project_id}.patient_data.personal_Data
          WHERE patient_Id = '{patient_Id}';
    """
-
    df = bigquery_Client.query(query).to_dataframe()
    print(df.head())
-   image_Path = df.iloc[0]["image_Path"]
-   #img = Image.open(image_Path)
-   #encoded_img =base64.b64encode(img).decode('utf-8')
-   prediction = round(float(df.iloc[0]['dr_Probability']), 2)
    patient_Id = df.iloc[0]['patient_Id']
    patient_Name = df.iloc[0]['patient_Name']
    patient_Email = df.iloc[0]['patient_Email']
    patient_Dob = df.iloc[0]['patient_Dob']
    patient_Gender = df.iloc[0]['patient_Gender']
-   test_Date = df.iloc[0]['test_Date']
+
+   test_Query = f"""
+         SELECT * FROM {project_id}.patient_data.test_Data
+         WHERE patient_Id = '{patient_Id}';
+   """
+   test_df = bigquery_Client.query(test_Query).to_dataframe() 
+   image_Path = test_df.iloc[0]["image_Path"] 
+   prediction = round(float(test_df.iloc[0]['dr_Probability']), 2) 
+   test_Date = test_df.iloc[0]['test_Date']
    date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
    test_Date = date_object.strftime("%B %d, %Y")
 
