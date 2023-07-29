@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import io
+import time
 
 import os
 from google.cloud import bigquery, storage
@@ -62,7 +63,7 @@ def upload_Data(image : UploadFile, data_Entry : dict):
 
     if errors :
         raise Exception(f'Error inserting rows into BigQuery : {errors}')
-    return f"https://storage.googleapis.com/{public_Bucket}/{blob.name}"
+    return f"https://storage.googleapis.com/{public_Bucket}/images/{blob.name}"
 
 
 @app.get("/")
@@ -92,12 +93,13 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
     date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
     test_Date_Display = date_object.strftime("%B %d, %Y")
 
-    patient_Name = patient_fName + patient_lName
+    patient_Name = patient_fName + " " + patient_lName
 
     data_Entry = {"patient_Id": patient_Id, "patient_Name": patient_Name, "patient_Dob": patient_Dob, "patient_Mobile": patient_Mobile, "patient_Email": patient_Email, "patient_Gender": patient_Gender, "test_Date": test_Date}
 
     image_Path = upload_Data(image, data_Entry)
 
+    time.sleep(13)
     query = f"""
          SELECT dr_Probability, image_Path FROM {project_id}.patient_data.test_Data
          WHERE patient_Id = '{patient_Id}' AND test_Date = '{test_Date}';
