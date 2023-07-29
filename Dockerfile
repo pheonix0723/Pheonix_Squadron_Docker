@@ -6,7 +6,7 @@ WORKDIR /code
 # Copy everything in current directory to /code
 COPY . /code
 
-# install the rwquirements
+# install the requirements
 RUN pip install -r requirements.txt
 # The last line is always a CMD in docker
 CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
