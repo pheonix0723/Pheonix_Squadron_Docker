@@ -114,7 +114,7 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
 async def get_data(request: Request,patient_Id:Annotated[str,Form(...)]):
 
    query = f"""
-         SELECT  * FROM {project_id}.patient_data.demo_table_01
+         SELECT  * FROM {project_id}.patient_data.personal_Data
          WHERE patient_Id = '{patient_Id}';
    """
    df = bigquery_Client.query(query).to_dataframe()
@@ -125,14 +125,14 @@ async def get_data(request: Request,patient_Id:Annotated[str,Form(...)]):
    patient_Dob = df.iloc[0]['patient_Dob']
    patient_Gender = df.iloc[0]['patient_Gender']
 
-#    test_Query = f"""
-#          SELECT * FROM {project_id}.patient_data.test_Data
-#          WHERE patient_Id = '{patient_Id}';
-#    """
-#    test_df = bigquery_Client.query(test_Query).to_dataframe() 
-   image_Path = df.iloc[0]["image_Path"] 
-   prediction = round(float(df.iloc[0]['dr_Probability']), 2) 
-   test_Date = df.iloc[0]['test_Date']
+   test_Query = f"""
+         SELECT * FROM {project_id}.patient_data.test_Data
+         WHERE patient_Id = '{patient_Id}';
+   """
+   test_df = bigquery_Client.query(test_Query).to_dataframe() 
+   image_Path = test_df.iloc[0]["image_Path"] 
+   prediction = round(float(test_df.iloc[0]['dr_Probability']), 2) 
+   test_Date = test_df.iloc[0]['test_Date']
    date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
    test_Date = date_object.strftime("%B %d, %Y")
 
