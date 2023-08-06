@@ -49,7 +49,7 @@ def upload_Data(image : UploadFile, data_Entry : dict):
     bucket = storage_Client.get_bucket(private_Bucket)
 
     # Upload the image into the Cloud Storage
-    blob = bucket.blob(f'{image.filename}')
+    blob = bucket.blob(f'{data_Entry["patient_Id"]}')
     image.file.seek(0)
     blob.upload_from_file(image.file, content_type = image.content_type)
 
