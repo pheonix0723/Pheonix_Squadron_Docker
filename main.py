@@ -36,7 +36,7 @@ class details(BaseModel):
     dr_Probability : float | None = None
     image_Path : str | None = None
 
-key_Path = "key.json"
+key_Path = "cloudkarya-internship key gcs.json"
 project_id = "cloudkarya-internship"
 bigquery_Client = bigquery.Client.from_service_account_json(key_Path)
 storage_Client = storage.Client.from_service_account_json(key_Path)
@@ -47,7 +47,7 @@ def upload_Data(image : UploadFile, data_Entry : dict, prediction : float):
     bucket = storage_Client.get_bucket(bucket_Name)
 
     # Upload the image into the Cloud Storage
-    blob = bucket.blob(f'{folder_Name}/{image.filename}')
+    blob = bucket.blob(f'{folder_Name}/{data_Entry["patient_Id"]}')
     image.file.seek(0)
     blob.upload_from_file(image.file)
 
@@ -122,7 +122,7 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
     date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
     test_Date_Display = date_object.strftime("%B %d, %Y")
 
-    patient_Name = patient_fName + patient_lName
+    patient_Name = patient_fName + " " + patient_lName
 
     data_Entry = {"patient_Id": patient_Id, "patient_Name": patient_Name, "patient_Dob": patient_Dob, "patient_Mobile": patient_Mobile, "patient_Email": patient_Email, "patient_Gender": patient_Gender, "test_Date": test_Date}
 
