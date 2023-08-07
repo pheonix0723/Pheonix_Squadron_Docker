@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+  <script src="//d3js.org/d3.v3.min.js"></script>
 
 </head>
 <!DOCTYPE html>
@@ -105,7 +106,32 @@
                 </div>
               </div>
 
+              <!-- <div class="sc-gauge" style="width:200px; height:200px; margin:50px auto;">
+                <div class="sc-background" style="position:relative; height:100px; margin-bottom:10px; 
+                background-color:#fff; border-radius:150px 150px 0 0; overflow:hidden; 
+                text-align:center;">
+                  <div class="sc-percentage" style="position:absolute; top:100px; left:-200%; 
+                  width:400%; height:400%; margin-left:100px; background-color:
+                  {% if probability > 60 %} 
+                  #fb5252;color: white
+                  {% elif probability < 30 %}
+                  #93f75e;
+                  {% else %}
+                  #f9fc5f;
+                  {% endif %}
+                  transform:rotate({{probability*1.8}}deg); transform-origin:top center;"></div>
+                  <div class="sc-mask" style="position:absolute; top:20px; right:20px; left:20px;
+                   height:80px; background-color:#fff; border-radius:150px 150px 0 0"></div>
+                  <span class="sc-value" style="position:absolute; top:50%; left:0; width:100%; 
+                   font-size:44px; font-weight:700; padding-bottom: 30px;">{{ probability }}</span>
+                </div>
+                <span class="sc-min" style="float:left;">0</span>
+                <span class="sc-max" style="float:right;">100</span>
             </div>
+            </div> -->
+
+            <div id = "dr_Meter"></div>
+
           </div>
         </div>
         </section>
@@ -131,6 +157,8 @@
     
           var ageDisplay = document.getElementById('age_Display');
           ageDisplay.textContent = "Age : " + calculate_Age("{{patient_Dob}}");
+          const context = canvas.getContext("2d");
+          var dr_Display = document.getElementById("dr_Meter");
         </script>
     
         {% endif %}
