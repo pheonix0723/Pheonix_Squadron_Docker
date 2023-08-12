@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
-  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
 
 </head>
 <!DOCTYPE html>
@@ -51,7 +51,7 @@
           </form>
         </div>
     
-        {% if img %}
+      {% if img %}
         <section id = "report">
         <div class = "reportcard">
           <div class="row" style="margin-right:0px;important;padding-right:0px;width: 960px;">
@@ -130,14 +130,114 @@
             </div>
             </div> -->
 
-            <div id = "dr_Meter"></div>
+            <svg id="drMeter" width="400" height="300" style="padding-top:60px;"></svg>
+
 
           </div>
         </div>
         </section>
-      </section>
+    </section>
       
         <script>
+
+            // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+            // Declare the chart dimensions and margins.
+            
+            const minValue = 0;
+            const maxValue = 100;
+            const currentValue = 50;
+
+            const width = 230;
+            const height = 200;
+
+            const radius = Math.min(width, height) / 2 - 1;
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            const arcStartAngle = -90 * (Math.PI / 180);
+            const arcEndAngle = 90 * (Math.PI / 180); 
+
+            const arc_Border = d3.arc()
+            .innerRadius(radius - 20)
+            .outerRadius(radius)
+            .startAngle(arcStartAngle)
+            .endAngle(arcEndAngle); 
+        
+            const arc = d3.arc()
+              .innerRadius(radius - 20)
+              .outerRadius(radius)
+              .startAngle(arcStartAngle)
+              .endAngle(arcStartAngle + (currentValue / 100) * (arcEndAngle - arcStartAngle)); 
+
+            const svg = d3.select("#drMeter")
+              .attr("width", width)
+              .attr("height", height);
+
+            const gauge = svg.append("g")
+              .attr("transform", `translate(${centerX}, ${centerY})`);
+
+            gauge.append("path")
+              .attr("d", arc_Border)
+              .attr("fill", "none")
+              .attr("stroke", "lightgray")
+              .attr("stroke-width", 3);
+
+            // Filling the colored portion
+            gauge.append("path")
+              .attr("d", arc)
+              .attr("fill", "green");
+
+            // const pointerLength = radius - 30;
+            // const pointer = gauge.append("line")
+            //   .attr("x1", 0)
+            //   .attr("y1", 0)
+            //   .attr("x2", pointerLength)
+            //   .attr("y2", 0)
+            //   .attr("stroke", "red")
+            //   .attr("stroke-width", 3)
+            //   .attr("transform", `rotate(${(currentValue / (maxValue - minValue)) * 180 + 180})`);
+
+            // Adding labels and title
+            const labelGroup = gauge.append("g")
+              .attr("class", "labels");
+
+            labelGroup.append("text")
+              .attr("class", "min-label")
+              .attr("x", -radius + 3)
+              .attr("y", 30)
+              .style("font-size", "20px")
+              // .style("font-weight", "bold")
+              .text(minValue);
+
+            labelGroup.append("text")
+              .attr("class", "max-label")
+              .attr("x", radius - 25)
+              .attr("y", 30)
+              .style("font-size", "20px")
+              // .style("font-weight", "bold")
+              .text(maxValue);
+
+            labelGroup.append("text")
+              .attr("class", "percentage-label")
+              .attr("x", 0)
+              .attr("y", -20)
+              .style("text-anchor", "middle")
+              .style("font-size", "28px")
+              .style("font-weight", "bold")
+              .text(`${currentValue}%`);
+
+            labelGroup.append("text")
+              .attr("class", "title")
+              .attr("x", 0)
+              .attr("y", 20)
+              .style("text-anchor", "middle")
+              .style("font-size", "22px")
+              .text("Diabetes");
+
+            // Append the SVG element.
+            // dr_Meter.append(guage);
+
+
             function removeTable() {
             var table = document.getElementById("patientTable");
             table.style.display = "none";
@@ -157,11 +257,9 @@
     
           var ageDisplay = document.getElementById('age_Display');
           ageDisplay.textContent = "Age : " + calculate_Age("{{patient_Dob}}");
-          const context = canvas.getContext("2d");
-          var dr_Display = document.getElementById("dr_Meter");
         </script>
     
-        {% endif %}
+      {% endif %}
 {% endblock %}
 </body>
 
