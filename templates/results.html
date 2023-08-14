@@ -22,14 +22,12 @@
   <script src="https://d3js.org/d3.v6.min.js"></script>
 
 </head>
-<!DOCTYPE html>
-<html lang="en">
 
 <body>
 
-    <section id="Analysis">
+  <section id="Analysis">
         <div class="dropdrown">
-          <form class="form-inline" id="form-inline" style="padding-left: 40px;" action="/getdata" method="POST">
+          <form class="form-inline" id="form-inline" style="padding-left: 180px;" action="/getdata" method="POST">
             <h4 style="color:rgb(20, 49, 77)">Search for a Report ?</h4>
             <div class="row ">
               <div class="col-md-4">
@@ -51,24 +49,33 @@
           </form>
         </div>
     
-      {% if img %}
+    {% if img %}
+    <div class="row">
+      <div class="col-md-6">
         <section id = "report">
-        <div class = "reportcard">
-          <div class="row" style="margin-right:0px;important;padding-right:0px;width: 960px;">
+        <div class="reportcard">
+          <!-- <div class="row" style="margin-right:0px;important;padding-right:0px;width: 960px;">
             <div class="card3" style="width:850px;">
               <div class="card-body6" >Name : {{patient_Name}}</div>
             </div>
-          </div>
+          </div> -->
           <br>
     
           <div class="row">
             <div class="col-md-5">
-              <div class="image-box" style = "height: 288px;">
+              <div class="image-box" style = "height: 260px;">
                 <img src="{{ img }}" alt = "Image Not Found">
               </div>
             </div>
     
             <div class="col-md-6">
+
+              <div class = "row" style="width: 450px;">
+                <div class="card4" >
+                  <div class="card-body7">Name : {{patient_Name}}</div>
+                </div>
+              </div>
+              <br>
 
               <div class="row" style="width: 450px;">
                 <div class="card4" >
@@ -90,9 +97,11 @@
                 </div>
               </div>
               <br>
-        
-              <div class="row" >
-                <!-- <div class="col-md-5"> -->
+
+            </div>
+            
+              <!-- <div class="row" >
+                <div class="col-md-5"> 
                 <div class="card4" style="width: 450px;">
                   <div class="card-body7" style="background-color:
                   {% if probability > 60 %} 
@@ -102,9 +111,9 @@
                   {% else %}
                   #f9fc5f;
                   {% endif %}">Probability of Having Diabetic Retinopathy : <b>{{ probability }} %</b></div>
-                  </div>
                 </div>
-              </div>
+              </div> -->
+
 
               <!-- <div class="sc-gauge" style="width:200px; height:200px; margin:50px auto;">
                 <div class="sc-background" style="position:relative; height:100px; margin-bottom:10px; 
@@ -130,137 +139,146 @@
             </div>
             </div> -->
 
-            <svg id="drMeter" width="400" height="300" style="padding-top:60px;"></svg>
-
-
           </div>
         </div>
         </section>
-    </section>
+      </div>
+      <div class="col-md-6" style="padding-left: 320px;">
+        <svg id="dr_Meter" width="400" height="300"></svg>
+        <svg id="hyper_Meter" width="400" height="300" style="padding-top:0px;"></svg>
+      </div>
+    </div>
+    {% endif %}
+  </section>
       
-        <script>
+  <script>
 
-            // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-            // Declare the chart dimensions and margins.
-            
-            const minValue = 0;
-            const maxValue = 100;
-            const currentValue = 50;
+      // import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+      // Declare the chart dimensions and margins.
+      radial_Meter("#dr_Meter", "Diabetes", '{{ probability }}');
+      radial_Meter("#hyper_Meter", "Hypertension", 29.49);
+      function radial_Meter(div_Id, title, percentage){
+        const minValue = 0;
+        const maxValue = 100;
+        const currentValue = percentage;
+        var level = "#f9fc5f";
+        if (currentValue > 60) level = "#fb5252";
+        if (currentValue < 30) level = "green";
 
-            const width = 230;
-            const height = 200;
+        const width = 300;
+        const height = 200;
 
-            const radius = Math.min(width, height) / 2 - 1;
-            const centerX = width / 2;
-            const centerY = height / 2;
+        const radius = Math.min(width, height) / 2;
+        const centerX = width / 2;
+        const centerY = height / 2;
 
-            const arcStartAngle = -90 * (Math.PI / 180);
-            const arcEndAngle = 90 * (Math.PI / 180); 
+        const arcStartAngle = -90 * (Math.PI / 180);
+        const arcEndAngle = 90 * (Math.PI / 180); 
 
-            const arc_Border = d3.arc()
-            .innerRadius(radius - 20)
-            .outerRadius(radius)
-            .startAngle(arcStartAngle)
-            .endAngle(arcEndAngle); 
-        
-            const arc = d3.arc()
-              .innerRadius(radius - 20)
-              .outerRadius(radius)
-              .startAngle(arcStartAngle)
-              .endAngle(arcStartAngle + (currentValue / 100) * (arcEndAngle - arcStartAngle)); 
-
-            const svg = d3.select("#drMeter")
-              .attr("width", width)
-              .attr("height", height);
-
-            const gauge = svg.append("g")
-              .attr("transform", `translate(${centerX}, ${centerY})`);
-
-            gauge.append("path")
-              .attr("d", arc_Border)
-              .attr("fill", "none")
-              .attr("stroke", "lightgray")
-              .attr("stroke-width", 3);
-
-            // Filling the colored portion
-            gauge.append("path")
-              .attr("d", arc)
-              .attr("fill", "green");
-
-            // const pointerLength = radius - 30;
-            // const pointer = gauge.append("line")
-            //   .attr("x1", 0)
-            //   .attr("y1", 0)
-            //   .attr("x2", pointerLength)
-            //   .attr("y2", 0)
-            //   .attr("stroke", "red")
-            //   .attr("stroke-width", 3)
-            //   .attr("transform", `rotate(${(currentValue / (maxValue - minValue)) * 180 + 180})`);
-
-            // Adding labels and title
-            const labelGroup = gauge.append("g")
-              .attr("class", "labels");
-
-            labelGroup.append("text")
-              .attr("class", "min-label")
-              .attr("x", -radius + 3)
-              .attr("y", 30)
-              .style("font-size", "20px")
-              // .style("font-weight", "bold")
-              .text(minValue);
-
-            labelGroup.append("text")
-              .attr("class", "max-label")
-              .attr("x", radius - 25)
-              .attr("y", 30)
-              .style("font-size", "20px")
-              // .style("font-weight", "bold")
-              .text(maxValue);
-
-            labelGroup.append("text")
-              .attr("class", "percentage-label")
-              .attr("x", 0)
-              .attr("y", -20)
-              .style("text-anchor", "middle")
-              .style("font-size", "28px")
-              .style("font-weight", "bold")
-              .text(`${currentValue}%`);
-
-            labelGroup.append("text")
-              .attr("class", "title")
-              .attr("x", 0)
-              .attr("y", 20)
-              .style("text-anchor", "middle")
-              .style("font-size", "22px")
-              .text("Diabetes");
-
-            // Append the SVG element.
-            // dr_Meter.append(guage);
-
-
-            function removeTable() {
-            var table = document.getElementById("patientTable");
-            table.style.display = "none";
-          }
+        const arc_Border = d3.arc()
+        .innerRadius(radius - 19)
+        .outerRadius(radius - 1)
+        .startAngle(arcStartAngle)
+        .endAngle(arcEndAngle); 
     
-          function calculate_Age(dateOfBirth) {
-            var today = new Date();
-            var birthDate = new Date(dateOfBirth);
-    
-            var yearsDiff = today.getFullYear() - birthDate.getFullYear();
-    
-            if (today.getMonth() < birthDate.getMonth() ||
-              (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) 
-                {yearsDiff--;}
-            return yearsDiff;
-          }
-    
-          var ageDisplay = document.getElementById('age_Display');
-          ageDisplay.textContent = "Age : " + calculate_Age("{{patient_Dob}}");
-        </script>
-    
-      {% endif %}
-{% endblock %}
+        const arc = d3.arc()
+          .innerRadius(radius - 20)
+          .outerRadius(radius)
+          .startAngle(arcStartAngle)
+          .endAngle(arcStartAngle + (currentValue / (maxValue - minValue)) * (arcEndAngle - arcStartAngle)); 
+
+        const svg = d3.select(div_Id)
+          .attr("width", width)
+          .attr("height", height);
+
+        const gauge = svg.append("g")
+          .attr("transform", `translate(${centerX}, ${centerY})`);
+
+        gauge.append("path")
+          .attr("d", arc_Border)
+          .attr("fill", "none")
+          .attr("stroke", "lightgray")
+          .attr("stroke-width", 3);
+
+        // Filling the colored portion
+        gauge.append("path")
+          .attr("d", arc)
+          .attr("fill", level);
+
+        // const pointerLength = radius - 30;
+        // const pointer = gauge.append("line")
+        //   .attr("x1", 0)
+        //   .attr("y1", 0)
+        //   .attr("x2", pointerLength)
+        //   .attr("y2", 0)
+        //   .attr("stroke", "red")
+        //   .attr("stroke-width", 3)
+        //   .attr("transform", `rotate(${(currentValue / (maxValue - minValue)) * 180 + 180})`);
+
+        // Adding labels and title
+        const labelGroup = gauge.append("g")
+          .attr("class", "labels");
+
+        labelGroup.append("text")
+          .attr("class", "min-label")
+          .attr("x", -radius + 3)
+          .attr("y", 30)
+          .style("font-size", "20px")
+          // .style("font-weight", "bold")
+          .text(minValue);
+
+        labelGroup.append("text")
+          .attr("class", "max-label")
+          .attr("x", radius - 25)
+          .attr("y", 30)
+          .style("font-size", "20px")
+          // .style("font-weight", "bold")
+          .text(maxValue);
+
+        labelGroup.append("text")
+          .attr("class", "percentage-label")
+          .attr("x", 5)
+          .attr("y", -15)
+          .style("text-anchor", "middle")
+          .style("font-size", "29px")
+          .style("font-weight", "bold")
+          .text(`${currentValue}%`);
+
+        labelGroup.append("text")
+          .attr("class", "title")
+          .attr("x", 0)
+          .attr("y", 25)
+          .style("text-anchor", "middle")
+          .style("font-size", "22px")
+          .text(title);
+
+        // Append the SVG element.
+        // dr_Meter.append(guage);
+    }
+
+      function removeTable() {
+      var table = document.getElementById("patientTable");
+      table.style.display = "none";
+    }
+
+    function calculate_Age(dateOfBirth) {
+      var today = new Date();
+      var birthDate = new Date(dateOfBirth);
+
+      var yearsDiff = today.getFullYear() - birthDate.getFullYear();
+
+      if (today.getMonth() < birthDate.getMonth() ||
+        (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) 
+          {yearsDiff--;}
+      return yearsDiff;
+    }
+
+    var ageDisplay = document.getElementById('age_Display');
+    ageDisplay.textContent = "Age : " + calculate_Age("{{patient_Dob}}");
+
+  </script>
+
 </body>
 
 </html>
+{% endblock %}
