@@ -187,22 +187,40 @@
         </div>
 
         <div class="col-md-6">
+
           <div style="width:600px;height:600px;" id="demo" class="carousel slide"
-            data-bs-ride="carousel">
+            data-bs-ride="carousel" data-bs-interval="false">
+
+            <!-- Left and Right controls/icons -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev" style="padding-left:0px;">
+              <!-- <span class="carousel-control-prev-icon"></span> -->
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+              <!-- <span class="carousel-control-next-icon" style="padding-top: 25px;"></span> -->
+            </button>
 
             <!-- Indicators/dots -->
             <div class="carousel-indicators">
               <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
               <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
               <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+              <button type="button" data-bs-target="#demo" data-bs-slide-to="3"></button>
             </div>
 
             <!-- The slideshow/carousel -->
             <div class="carousel-inner">
 
               <div class="carousel-item active">
-                <img src="/static/images/fundus_Camera_01.jpeg" alt="New York" class="d-block"
-                  style="width:80%;opacity:1;padding-left: 130px;padding-top: 0px;">
+                <img src="/static/images/fundus_Camera.jpeg" alt="San Francisco Bay Area" class="d-block"
+                  style="width:80%;opacity:1;padding-left: 130px;padding-top: 60px;">
+                <div class="carousel-caption" style="text-align:center; padding-top: 2px;color:black">
+
+                </div>
+              </div>
+              
+              <div class="carousel-item">
+                <img src="/static/images/fundus_Camera_01.jpeg" alt="San Francisco" class="d-block"
+                  style="width:75%;opacity:1;padding-left: 140px;padding-top: 40px;">
                 <div class="carousel-caption" style="text-align:center; padding-top: 2px;color:black">
 
                 </div>
@@ -217,7 +235,7 @@
 
               <div class="carousel-item">
                 <img src="/static/images/human_eye.png" alt="New York" class="d-block"
-                  style="width:80%;opacity:1;padding-left: 100px;padding-top: 40px;">
+                  style="width:78%;opacity:1;padding-left: 140px;padding-top: 70px;">
                 <div class="carousel-caption" style="text-align:center; padding-top: 2px;color:black">
 
                 </div>
@@ -225,22 +243,15 @@
               
               <div class="carousel-item">
                 <img src="/static/images/Diabetic_Retinopathy_Neural_network.png"  alt="Chicago" class="d-block"
-                  style="width:100% ;height:400px">
+                  style="width:85% ;height:400px; padding-top: 50px; padding-left: 60px;">
                 <div class="carousel-caption">
                   <!-- <p><b>Neural Network Basic Functionality</b></p> -->
                 </div>
               </div>
 
-            </div>
+            </div>  
           </div>
 
-          <!-- Left and right controls/icons -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev" style="padding-left:900px;">
-            <span class="carousel-control-prev-icon"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-          </button>
         </div>
       </div>
     </div>
