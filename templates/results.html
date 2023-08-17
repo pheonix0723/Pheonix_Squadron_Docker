@@ -50,8 +50,8 @@
         </div>
     
     {% if img %}
-    <div class="row">
-      <div class="col-md-6">
+    <!-- <div class="row"> -->
+      <!-- <div class="col-md-6"> -->
         <section id = "report">
         <div class="reportcard">
           <!-- <div class="row" style="margin-right:0px;important;padding-right:0px;width: 960px;">
@@ -63,7 +63,7 @@
     
           <div class="row">
             <div class="col-md-5">
-              <div class="image-box" style = "height: 260px;">
+              <div class="image-box" style = "height: 310px; width: 700x;">
                 <img src="{{ img }}" alt = "Image Not Found">
               </div>
             </div>
@@ -84,8 +84,21 @@
               </div>
               <br>
     
-              <div class="row" >
-                <div class="card4" style="width: 450px;">
+              <div class="row" style="padding-left: 40px;">
+                <div class="col-md-6">
+                  <div class="card5" style="width:200px;">
+                      <div class="card-body7" id = "age_Display"></div>
+                  </div>
+                </div>
+
+                <div class="col-md-6" style="padding-left: 30px;">
+                  <div class="card5" style="width:200px;">
+                      <div class="card-body7" >Gender : {{patient_Gender}}</div>
+                  </div>
+                </div>
+              </div>
+
+                <!-- <div class="card4" style="width: 450px;">
                   <div class="card-body7" id = "age_Display"></div>
                 </div>
               </div>
@@ -94,6 +107,16 @@
               <div class="row" >
                 <div class="card4" style="width: 450px;">
                   <div class="card-body7" >Gender : {{patient_Gender}}</div>
+                </div>
+              </div> -->
+              <br>
+
+              <div class="row" >
+                <div class="col-md-6" style="padding-left: 30px;">
+                  <svg id="dr_Meter" width="400" height="300"></svg>
+                </div>
+                <div class="col-md-6" style="padding-left: 30px;" >
+                  <svg id="hyper_Meter" width="400" height="300" style="padding-top:0px;"></svg>
                 </div>
               </div>
               <br>
@@ -142,12 +165,12 @@
           </div>
         </div>
         </section>
-      </div>
-      <div class="col-md-6" style="padding-left: 320px;">
+      <!-- </div> -->
+      <!-- <div class="col-md-6" style="padding-left: 320px;">
         <svg id="dr_Meter" width="400" height="300"></svg>
         <svg id="hyper_Meter" width="400" height="300" style="padding-top:0px;"></svg>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
     {% endif %}
   </section>
       
@@ -165,12 +188,12 @@
         if (currentValue > 60) level = "#fb5252";
         if (currentValue < 30) level = "green";
 
-        const width = 300;
-        const height = 200;
+        const width = 250;
+        const height = 180;
 
         const radius = Math.min(width, height) / 2;
         const centerX = width / 2;
-        const centerY = height / 2;
+        const centerY = height / 2 + 1;
 
         const arcStartAngle = -90 * (Math.PI / 180);
         const arcEndAngle = 90 * (Math.PI / 180); 
@@ -240,7 +263,7 @@
           .attr("x", 5)
           .attr("y", -15)
           .style("text-anchor", "middle")
-          .style("font-size", "29px")
+          .style("font-size", "25px")
           .style("font-weight", "bold")
           .text(`${currentValue}%`);
 
@@ -249,7 +272,7 @@
           .attr("x", 0)
           .attr("y", 25)
           .style("text-anchor", "middle")
-          .style("font-size", "22px")
+          .style("font-size", "20px")
           .text(title);
 
         // Append the SVG element.
