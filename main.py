@@ -36,7 +36,7 @@ class details(BaseModel):
     dr_Probability : float | None = None
     image_Path : str | None = None
 
-key_Path = "cloudkarya-internship key gcs.json"
+key_Path = "key.json"
 project_id = "cloudkarya-internship"
 bigquery_Client = bigquery.Client.from_service_account_json(key_Path)
 storage_Client = storage.Client.from_service_account_json(key_Path)
@@ -132,29 +132,32 @@ async def dynamic(request : Request, image : Annotated[UploadFile, File(...)],
 
     
 @app.post("/getdata")
-async def get_data(request: Request,patient_Id:Annotated[str,Form(...)]):
+async def get_data(request: Request, patient_Id: Annotated[str,Form(...)]):
 
-   query = f"""
-         SELECT  * FROM {project_id}.patient_data.demo_table_01
-         WHERE patient_Id = '{patient_Id}';
-   """
+    if patient_Id == "None":
+        return templates.TemplateResponse("results.html", {"request" : request})
 
-   df = bigquery_Client.query(query).to_dataframe()
-   print(df.head())
-   image_Path = df.iloc[0]["image_Path"]
-   #img = Image.open(image_Path)
-   #encoded_img =base64.b64encode(img).decode('utf-8')
-   prediction = round(float(df.iloc[0]['dr_Probability']), 2)
-   patient_Id = df.iloc[0]['patient_Id']
-   patient_Name = df.iloc[0]['patient_Name']
-   patient_Email = df.iloc[0]['patient_Email']
-   patient_Dob = df.iloc[0]['patient_Dob']
-   patient_Gender = df.iloc[0]['patient_Gender']
-   test_Date = df.iloc[0]['test_Date']
-   date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
-   test_Date = date_object.strftime("%B %d, %Y")
+    query = f"""
+            SELECT  * FROM {project_id}.patient_data.demo_table_01
+            WHERE patient_Id = '{patient_Id}';
+    """
 
-   return templates.TemplateResponse("results.html", {"request": request, "probability": prediction, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date})
+    df = bigquery_Client.query(query).to_dataframe()
+    print(df.head())
+    image_Path = df.iloc[0]["image_Path"]
+    #img = Image.open(image_Path)
+    #encoded_img =base64.b64encode(img).decode('utf-8')
+    prediction = round(float(df.iloc[0]['dr_Probability']), 2)
+    patient_Id = df.iloc[0]['patient_Id']
+    patient_Name = df.iloc[0]['patient_Name']
+    patient_Email = df.iloc[0]['patient_Email']
+    patient_Dob = df.iloc[0]['patient_Dob']
+    patient_Gender = df.iloc[0]['patient_Gender']
+    test_Date = df.iloc[0]['test_Date']
+    date_object = datetime.strptime(str(test_Date), "%Y-%m-%d")
+    test_Date = date_object.strftime("%B %d, %Y")
+
+    return templates.TemplateResponse("results.html", {"request": request, "probability": prediction, "img": image_Path , "patient_Id": patient_Id, "patient_Name": patient_Name,"patient_Dob": patient_Dob,"patient_Email": patient_Email,"patient_Gender": patient_Gender, "test_Date": test_Date})
    
 
 # # if __name__ == '__dynamic__':
